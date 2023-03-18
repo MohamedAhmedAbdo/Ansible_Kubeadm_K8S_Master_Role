@@ -1,0 +1,10 @@
+- name: fetch the join command
+  shell: kubeadm token create --print-join-command
+  register: created_command_join
+
+- local_action:
+    module: copy
+    content: "{{ created_command_join.stdout }} --cri-socket=unix:///var/run/crio/crio.sock "
+    dest: /tmp/joinToken.sh
+    mode: 755
+
